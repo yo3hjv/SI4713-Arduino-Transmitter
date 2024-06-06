@@ -135,6 +135,8 @@ void deviation() {
 }
 
 void compEnable() {
+        //LIMITEN = 1; ACEN = 1
+        //Enable Audio Lmiter and Transmit Audio Dynamic Range Control Enable
                 uint8_t data[] = {0x00, 0x22, 0x00, 0x00, 0x03};
                 transmitI2C(0x12, data, sizeof(data));
 }
