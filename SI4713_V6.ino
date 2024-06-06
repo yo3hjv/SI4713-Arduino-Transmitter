@@ -2,6 +2,10 @@
         SI4713_V6.ino
         All rights reserved to YO3HJV, Adrian Florescu 
         2024
+
+        This is the final iteration for the SI4713 FM Transmitter controller.
+        This version can set some of the most important parameters through global declarations
+        For more informations about what the variables are doing, I strongly reccomend reading the datasheet.
     Set parameters and read parameters that were set
 */
 
@@ -15,11 +19,13 @@ const int8_t TX_ACOMP_THRESHOLD = -40; // in dB
 const uint8_t TX_ACOMP_ATTACK_TIME = 5; // in ms
 const uint16_t TX_ACOMP_RELEASE_TIME = 100; // in ms
 const uint8_t TX_ACOMP_GAIN = 15; // in dB
-const uint16_t TX_LIMITER_RELEASE_TIME = 5; // in ms
+const uint16_t TX_LIMITER_RELEASE_TIME = 5; // in ms.  MPX limiter
 
 // Default values for deviation settings
-const uint16_t TX_AUDIO_DEVIATION = 6825; // in 10 Hz increments
-const uint16_t TX_PILOT_DEVIATION = 675; // in 10 Hz increments
+const uint16_t TX_AUDIO_DEVIATION = 6825; // default value, in 10 Hz increments. 6825 is default meaning a deviation of +/-68.25 KHz.
+                // It can be increased to 7500 +/-75 KHz for a BW of 150 KHz.
+                // In this case, the TX_PILOT_DEVIATION should be set for 750
+const uint16_t TX_PILOT_DEVIATION = 675; // default value, in 10 Hz increments. The pilot tone deviation  must be 10% from the audio deviation
 
 void setup() {
                 pinMode(12, OUTPUT);
@@ -75,7 +81,7 @@ void readI2C(uint8_t reg, uint8_t *data, size_t len) {
 }
 
 void setClock() {
-                uint8_t data[] = {0x00, 0x02, 0x01, 0x7E, 0xF4};
+               uint8_t data[] = {0x00, 0x02, 0x01, 0x80, 0x00}; // 0x8000 for 32768 Hz. Default.
                 transmitI2C(0x12, data, sizeof(data));
 }
 
