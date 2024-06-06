@@ -23,9 +23,9 @@ const uint16_t TX_LIMITER_RELEASE_TIME = 5; // in ms.  MPX limiter
 
 // Default values for deviation settings
 const uint16_t TX_AUDIO_DEVIATION = 6825; // default value, in 10 Hz increments. 6825 is default meaning a deviation of +/-68.25 KHz.
-                // It can be increased to 7500 +/-75 KHz for a BW of 150 KHz.
-                // In this case, the TX_PILOT_DEVIATION should be set for 750
 const uint16_t TX_PILOT_DEVIATION = 675; // default value, in 10 Hz increments. The pilot tone deviation  must be 10% from the audio deviation
+// TX_AUDIO_DEVIATION + TX_PILOT_DEVIATION should not exceed 75 KHz! 6825 +675 = 7500.
+
 
 void setup() {
                 pinMode(12, OUTPUT);
